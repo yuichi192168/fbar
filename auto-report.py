@@ -1,6 +1,6 @@
 import mechanize
 from mechanize import Browser
-from optparse import OptionParser
+import argparse
 from getpass import getpass
 
 # Define colors (if needed, you can use colorama for more complex color handling)
@@ -47,12 +47,12 @@ class Facebook(Browser):
         print('Review To Facebook')
 
 # Command line options and argument handling
-parser = OptionParser(usage='Usage: %prog [options]')
-parser.add_option('-l', '--login', action='store_true', dest='login', help='Login Into Facebook')
-parser.add_option('-p', '--person', action='store_true', dest='person', help='Report Account')
-parser.add_option('-H', '--help', action='store_true', dest='help', help='Show Options')
+parser = argparse.ArgumentParser(description='Facebook Reporting Tool')
+parser.add_argument('-l', '--login', action='store_true', help='Login Into Facebook')
+parser.add_argument('-p', '--person', action='store_true', help='Report Account')
+parser.add_argument('-H', '--help', action='store_true', help='Show Options')
 
-(options, args) = parser.parse_args()
+args = parser.parse_args()
 
 # Print header information
 print('')
@@ -70,19 +70,18 @@ print('')
 facebook = Facebook()
 
 # Option handling
-if options.login:
+if args.login:
     email = input("Enter your username: ")
     password = getpass("Enter your password: ")
     facebook.login(email, password)
 
-if options.person:
+if args.person:
     profile_id = input("Enter profile ID to report: ")
     facebook.report_someone(profile_id)
 
 # Help option handling
-if options.help:
+if args.help:
     parser.print_help()
     print('')
     print('Example: python autoreport-fb.py --login --person "profile_id" #without quotes')
     print('')
-
