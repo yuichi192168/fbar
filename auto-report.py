@@ -1,7 +1,3 @@
-require 'mechanize'
-require 'colorize'
-require 'optparse'
-require 'highline/import'
 
 options = {}
 
